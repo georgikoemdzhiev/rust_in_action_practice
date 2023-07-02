@@ -6,7 +6,7 @@ enum SatCubStatus {
 }
 
 #[derive(Debug)]                  // <2>
-struct SatCub {
+struct CubeSat {
     id: u64,
     mailbox: Mailbox,
 }
@@ -20,12 +20,12 @@ struct Mailbox {
 struct GroundStation;
 
 impl GroundStation {
-    fn send(&self, to: &mut SatCub, msg: Message) {
+    fn send(&self, to: &mut CubeSat, msg: Message) {
         to.mailbox.messages.push(msg);
     }
 }
 
-impl SatCub {
+impl CubeSat {
     fn recv(&mut self) -> Option<Message> {
         self.mailbox.messages.pop()
     }
@@ -34,14 +34,14 @@ impl SatCub {
 
 type Message = String;
 
-fn check_status(sat_id: SatCub) -> SatCub {
+fn check_status(sat_id: CubeSat) -> CubeSat {
     println!("sat a: {:?}, status: {:?}", sat_id, SatCubStatus::Ok);
     sat_id
 }
 
 fn main() {
     let base = GroundStation {};
-    let mut sat_a = SatCub { id: 0, mailbox: Mailbox { messages: vec![] } };
+    let mut sat_a = CubeSat { id: 0, mailbox: Mailbox { messages: vec![] } };
 
     println!("t0: {:?}", sat_a);
 
